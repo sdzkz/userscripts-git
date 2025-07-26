@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name         Big Scrollbar
-// @require      https://raw.githubusercontent.com/sdzkz/userscripts-git/main/src/big_scrollbar.user.js
-// @namespace    http://tampermonkey.net/
+// @namespace    https://github.com/sdzkz/userscripts-git
 // @version      0.1
 // @description  Increase the width of scrollbars on all pages
 // @author       You
