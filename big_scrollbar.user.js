@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         Big Scrollbar
-// @namespace    https://github.com/sdzkz/userscripts-git
+// @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Increase the width of scrollbars on all pages
 // @author       You
 // @match        *://*/*
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts/main/big_scrollbar.user.js
+// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts/main/big_scrollbar.user.js
 // ==/UserScript==
 
 (function() {
