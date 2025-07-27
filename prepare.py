@@ -7,9 +7,9 @@ import re
 BASE_URL = "https://raw.githubusercontent.com/sdzkz/userscripts-git/main/"
 
 def process_userscript(file_path):
-    # Get just the filename for URL
-    file_name = os.path.basename(file_path)
-    script_url = BASE_URL + file_name
+    # Get relative path from current directory for URL
+    rel_path = os.path.relpath(file_path)
+    script_url = BASE_URL + rel_path.replace('\\', '/')  # Windows path fix
     
     # Read the file content
     with open(file_path, 'r') as f:
@@ -61,9 +61,32 @@ def process_userscript(file_path):
     
     print(f"Updated metadata in {file_path}")
 
+def find_userscripts(start_dir='.'):
+    """Recursively find all .user.js files, skipping hidden directories"""
+    user_js_files = []
+    for root, dirs, files in os.walk(start_dir):
+        # Skip hidden directories
+        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        
+        for file in files:
+            if file.endswith('.user.js'):
+                user_js_files.append(os.path.join(root, file))
+    return user_js_files
+
 if __name__ == "__main__":
+    # Handle --all flag
+    if len(sys.argv) == 2 and sys.argv[1] == '--all':
+        print("Processing all .user.js files...")
+        scripts = find_userscripts()
+        for file_path in scripts:
+            process_userscript(file_path)
+        print(f"Processed {len(scripts)} files")
+        sys.exit(0)
+    
+    # Handle normal file arguments
     if len(sys.argv) < 2:
         print("Usage: python prepare.py <userscript-file>")
+        print("       python prepare.py --all")
         sys.exit(1)
     
     for file_path in sys.argv[1:]:
@@ -71,3 +94,4 @@ if __name__ == "__main__":
             process_userscript(file_path)
         else:
             print(f"File not found: {file_path}")
+
