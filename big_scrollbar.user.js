@@ -6,8 +6,8 @@
 // @author       You
 // @match        *://*/*
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts/main/big_scrollbar.user.js
-// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts/main/big_scrollbar.user.js
+// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/big_scrollbar.user.js
+// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/big_scrollbar.user.js
 // ==/UserScript==
 
 (function() {

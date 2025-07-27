@@ -4,7 +4,7 @@ import sys
 import re
 
 # Base URL for raw GitHub files
-BASE_URL = "https://raw.githubusercontent.com/sdzkz/userscripts/main/"
+BASE_URL = "https://raw.githubusercontent.com/sdzkz/userscripts-git/main/"
 
 def process_userscript(file_path):
     # Get just the filename for URL

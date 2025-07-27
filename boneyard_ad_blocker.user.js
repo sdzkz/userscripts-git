@@ -5,8 +5,8 @@
 // @description  N/A
 // @match        https://the-boneyard.com/*
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts/main/boneyard_ad_blocker.user.js
-// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts/main/boneyard_ad_blocker.user.js
+// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/boneyard_ad_blocker.user.js
+// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/boneyard_ad_blocker.user.js
 // ==/UserScript==
 
 (function() {

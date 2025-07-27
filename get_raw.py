@@ -4,7 +4,7 @@ import sys
 import subprocess
 
 # GitHub raw URL base
-BASE_URL = "https://raw.githubusercontent.com/sdzkz/userscripts/main/"
+BASE_URL = "https://raw.githubusercontent.com/sdzkz/userscripts-git/main/"
 
 def get_raw_url(filename):
     """Generate raw GitHub URL for the userscript"""
