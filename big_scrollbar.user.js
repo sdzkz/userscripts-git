@@ -33,8 +33,8 @@
         style.id = 'big-scrollbar-style';
         style.innerHTML = `
             ::-webkit-scrollbar {
-                width: 30px !important;
-                height: 30px !important;
+                width: 100px !important;
+                height: 100px !important;
             }
             ::-webkit-scrollbar-track {
                 background: #f1f1f1 !important;
@@ -42,6 +42,7 @@
             ::-webkit-scrollbar-thumb {
                 background: #888 !important;
                 border-radius: 5px !important;
+                min-height: 300px !important;
             }
         `;
         return style;
