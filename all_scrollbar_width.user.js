@@ -6,12 +6,34 @@
 // @author       You
 // @match        *://*/*
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/x_scrollbar_width.user.js
-// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/x_scrollbar_width.user.js
+// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/all_scrollbar_width.user.js
+// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/all_scrollbar_width.user.js
 // ==/UserScript==
 
 (function() {
     'use strict';
+    
+    // Set of hostnames where any port should be excluded
+    const excludedHostnames = new Set([
+        '127.0.0.1'
+    ]);
+    
+    // Array of URL prefixes to exclude
+    const excludedPrefixes = [];
+    
+    // Check hostname-based exclusions (any port)
+    if (excludedHostnames.has(window.location.hostname)) {
+        return;
+    }
+    
+    // Check URL prefix exclusions
+    const currentUrl = window.location.href;
+    for (const prefix of excludedPrefixes) {
+        if (currentUrl.startsWith(prefix)) {
+            return;
+        }
+    }
+    
     const style = document.createElement('style');
     style.innerHTML = `
         ::-webkit-scrollbar {
@@ -29,5 +51,4 @@
     `;
     document.head.appendChild(style);
 })();
-
 
