@@ -4,7 +4,7 @@
 // @version      0.2
 // @description  Increase scrollbar width and set minimum thumb height
 // @author       You
-// @match        *://x.com/*
+// @match        *://*/*
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/x_scrollbar_width.user.js
 // @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/x_scrollbar_width.user.js
@@ -29,4 +29,5 @@
     `;
     document.head.appendChild(style);
 })();
+
 
