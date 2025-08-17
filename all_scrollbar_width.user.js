@@ -19,7 +19,9 @@
     ]);
     
     // Array of URL prefixes to exclude
-    const excludedPrefixes = [];
+    const excludedPrefixes = [
+	'https://www.google.com/maps/'
+    ];
     
     // Check hostname-based exclusions (any port)
     if (excludedHostnames.has(window.location.hostname)) {
