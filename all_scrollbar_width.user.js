@@ -20,7 +20,8 @@
     
     // Array of URL prefixes to exclude
     const excludedPrefixes = [
-	'https://www.google.com/maps/'
+	'https://www.google.com/maps/',
+	'https://fivetechnology.github.io/'
     ];
     
     // Check hostname-based exclusions (any port)
