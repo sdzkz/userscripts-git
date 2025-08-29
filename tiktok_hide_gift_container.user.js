@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Hide TikTok Gift Containers
+// @name         Hide TikTok Gift Containers (Specific)
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  Hides gift container elements on TikTok
+// @version      1.2
+// @description  Hides specific gift container elements on TikTok Live
 // @author       You
 // @match        https://www.tiktok.com/*
 // @grant        none
@@ -14,77 +14,97 @@
 (function() {
     'use strict';
 
-    // Multiple hiding strategies
+    // Multiple targeting approaches
+    const selectors = [
+        // Your specific selector
+        '#tiktok-live-main-container-id > div.bg-UIPageFlat1.tiktok-q76ycn.eayczbk0 > div.tiktok-i9gxme.eayczbk1 > div > div.css-112zjc7.relative.overflow-x-hidden.overflow-auto.p-12 > div.min-h-\\[540px\\].rounded-2xl.overflow-hidden > div:nth-child(3) > div',
+        
+        // Simplified versions
+        '[data-gift-container="1"]',
+        'div[data-gift-container]',
+        
+        // Broader gift-related selectors
+        '[class*="gift"]',
+        '[class*="Gift"]'
+    ];
+
     const hideElement = (el) => {
-        // Method 1: display none
-        el.style.setProperty('display', 'none', 'important');
+        if (!el || el.__hiddenByScript) return; // Prevent double-processing
         
-        // Method 2: visibility hidden + size reduction
-        el.style.setProperty('visibility', 'hidden', 'important');
-        el.style.setProperty('width', '0px', 'important');
-        el.style.setProperty('height', '0px', 'important');
-        el.style.setProperty('min-height', '0px', 'important');
-        el.style.setProperty('min-width', '0px', 'important');
-        el.style.setProperty('margin', '0px', 'important');
-        el.style.setProperty('padding', '0px', 'important');
+        // Mark as processed
+        el.__hiddenByScript = true;
         
-        // Method 3: remove from DOM (optional - uncomment if needed)
-        // el.remove();
+        // Aggressive hiding
+        el.style.cssText = `
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+            position: absolute !important;
+            z-index: -9999 !important;
+        `;
+        
+        console.log('Hidden element:', el);
     };
 
-    // Hide existing gift containers
     const hideGiftContainers = () => {
-        const containers = document.querySelectorAll('div[data-gift-container="1"]');
-        containers.forEach(el => {
-            console.log('Hiding gift container:', el);
-            hideElement(el);
+        selectors.forEach(selector => {
+            try {
+                const elements = document.querySelectorAll(selector);
+                elements.forEach(hideElement);
+            } catch (e) {
+                console.debug('Selector failed:', selector, e);
+            }
         });
     };
 
-    // More robust selector observer
+    // Comprehensive observation
     const observer = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-            mutation.addedNodes.forEach(node => {
-                if (node.nodeType === 1) { // Element node
-                    // Check direct match
-                    if (node.hasAttribute?.('data-gift-container')) {
-                        console.log('New gift container detected (direct):', node);
-                        hideElement(node);
-                    }
-                    
-                    // Check descendants
-                    const matchingChildren = node.querySelectorAll?.('[data-gift-container="1"]');
-                    if (matchingChildren && matchingChildren.length > 0) {
-                        matchingChildren.forEach(el => {
-                            console.log('New gift container detected (child):', el);
-                            hideElement(el);
-                        });
-                    }
-                }
-            });
-        });
+        let shouldHide = false;
+        
+        for (const mutation of mutations) {
+            if (mutation.addedNodes.length > 0) {
+                shouldHide = true;
+                break;
+            }
+        }
+        
+        if (shouldHide) {
+            // Use microtask to debounce
+            queueMicrotask(hideGiftContainers);
+        }
     });
 
-    // Start observing early
-    if (document.body) {
-        observer.observe(document.body, { childList: true, subtree: true });
-        hideGiftContainers();
-    } else {
-        // Wait for body if not available
-        const waitForBody = setInterval(() => {
-            if (document.body) {
-                clearInterval(waitForBody);
-                observer.observe(document.body, { childList: true, subtree: true });
-                hideGiftContainers();
-            }
-        }, 100);
-    }
+    // Start observation
+    const startObservation = () => {
+        if (document.body) {
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+            hideGiftContainers();
+        }
+    };
 
-    // Also run on DOMContentLoaded and load events
-    document.addEventListener('DOMContentLoaded', hideGiftContainers);
-    window.addEventListener('load', hideGiftContainers);
+    // Multiple startup methods
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startObservation);
+    } else {
+        startObservation();
+    }
     
-    // Periodic check as fallback
-    setInterval(hideGiftContainers, 1000);
+    // Fallback polling
+    const interval = setInterval(hideGiftContainers, 500);
+    
+    // Stop polling after 30 seconds to prevent performance issues
+    setTimeout(() => clearInterval(interval), 30000);
+    
+    // Also run on page load
+    window.addEventListener('load', hideGiftContainers);
 })();
 
