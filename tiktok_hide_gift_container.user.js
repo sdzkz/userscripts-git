@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Hide TikTok Gift Containers
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Hides gift container elements on TikTok
 // @author       You
 // @match        https://www.tiktok.com/*
@@ -14,35 +14,77 @@
 (function() {
     'use strict';
 
+    // Multiple hiding strategies
+    const hideElement = (el) => {
+        // Method 1: display none
+        el.style.setProperty('display', 'none', 'important');
+        
+        // Method 2: visibility hidden + size reduction
+        el.style.setProperty('visibility', 'hidden', 'important');
+        el.style.setProperty('width', '0px', 'important');
+        el.style.setProperty('height', '0px', 'important');
+        el.style.setProperty('min-height', '0px', 'important');
+        el.style.setProperty('min-width', '0px', 'important');
+        el.style.setProperty('margin', '0px', 'important');
+        el.style.setProperty('padding', '0px', 'important');
+        
+        // Method 3: remove from DOM (optional - uncomment if needed)
+        // el.remove();
+    };
+
     // Hide existing gift containers
     const hideGiftContainers = () => {
-        const containers = document.querySelectorAll('div.w-full.flex.items-center.justify-center[data-gift-container="1"]');
+        const containers = document.querySelectorAll('div[data-gift-container="1"]');
         containers.forEach(el => {
-            el.style.display = 'none';
+            console.log('Hiding gift container:', el);
+            hideElement(el);
         });
     };
 
-    // Observe DOM changes to catch dynamically loaded containers
+    // More robust selector observer
     const observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
             mutation.addedNodes.forEach(node => {
                 if (node.nodeType === 1) { // Element node
-                    // Check if the added node itself matches
-                    if (node.matches?.('div.w-full.flex.items-center.justify-center[data-gift-container="1"]')) {
-                        node.style.display = 'none';
+                    // Check direct match
+                    if (node.hasAttribute?.('data-gift-container')) {
+                        console.log('New gift container detected (direct):', node);
+                        hideElement(node);
                     }
-                    // Check if any of its children match
-                    const matchingChildren = node.querySelectorAll?.('div.w-full.flex.items-center.justify-center[data-gift-container="1"]');
-                    if (matchingChildren) {
-                        matchingChildren.forEach(el => el.style.display = 'none');
+                    
+                    // Check descendants
+                    const matchingChildren = node.querySelectorAll?.('[data-gift-container="1"]');
+                    if (matchingChildren && matchingChildren.length > 0) {
+                        matchingChildren.forEach(el => {
+                            console.log('New gift container detected (child):', el);
+                            hideElement(el);
+                        });
                     }
                 }
             });
         });
     });
 
-    // Initial hide and start observing
-    hideGiftContainers();
-    observer.observe(document.body, { childList: true, subtree: true });
+    // Start observing early
+    if (document.body) {
+        observer.observe(document.body, { childList: true, subtree: true });
+        hideGiftContainers();
+    } else {
+        // Wait for body if not available
+        const waitForBody = setInterval(() => {
+            if (document.body) {
+                clearInterval(waitForBody);
+                observer.observe(document.body, { childList: true, subtree: true });
+                hideGiftContainers();
+            }
+        }, 100);
+    }
+
+    // Also run on DOMContentLoaded and load events
+    document.addEventListener('DOMContentLoaded', hideGiftContainers);
+    window.addEventListener('load', hideGiftContainers);
+    
+    // Periodic check as fallback
+    setInterval(hideGiftContainers, 1000);
 })();
 
