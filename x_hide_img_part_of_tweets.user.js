@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Hide Tweet Text on X.com
+// @name         Hide Tweet Images on X.com
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Hide tweet text elements while preserving image layout
+// @version      1.1
+// @description  Hide tweet images/videos while preserving text content
 // @author       You
 // @match        https://x.com/*
 // @match        https://twitter.com/*
@@ -19,12 +19,8 @@
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
-                // Process newly added nodes
                 if (node.nodeType === Node.ELEMENT_NODE) {
-                    hideTweetText(node);
-                    // Also check children of added nodes
-                    node.querySelectorAll && 
-                        node.querySelectorAll('[data-testid="tweetText"]').forEach(hideTweetText);
+                    hideMediaElements(node);
                 }
             });
         });
@@ -36,27 +32,35 @@
         subtree: true 
     });
 
-    // Initial run on existing content
+    // Initial run
     document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('[data-testid="tweetText"]').forEach(hideTweetText);
+        hideMediaElements(document);
     });
 
-    // Also run periodically as a fallback
+    // Periodic check as fallback
     setInterval(() => {
-        document.querySelectorAll('[data-testid="tweetText"]').forEach(hideTweetText);
-    }, 1000);
+        hideMediaElements(document);
+    }, 1500);
 
-    function hideTweetText(element) {
-        // Only target the specific tweet text elements
-        if (element.dataset && element.dataset.testid === 'tweetText') {
-            // Hide the element but preserve its space
-            element.style.visibility = 'hidden';
-            element.style.position = 'absolute';
-            element.style.left = '-9999px';
-            
-            // Alternative: completely hide (might affect layout)
-            // element.style.display = 'none';
-        }
+    function hideMediaElements(root) {
+        // Target media containers in tweets
+        const selectors = [
+            'div[data-testid="tweet"] div:has(> div > div > div > div > div > div > div[role="link"])', // Image containers
+            'div[data-testid="tweet"] div:has(> div > div > div > div > div > div > div[aria-labelledby])', // Video containers
+            'div[data-testid="tweet"] div:has(> div > div > div > div > div > div > div[style*="background-image"])', // Background image containers
+            'div[data-testid="tweet"] div[role="link"]', // Link preview containers
+            'div[data-testid="tweet"] div:has(> div > video)', // Video elements
+            'div[data-testid="tweet"] div:has(> div > div > img)', // Direct image containers
+        ];
+
+        selectors.forEach(selector => {
+            const elements = (root.nodeType === Node.ELEMENT_NODE ? root : document).querySelectorAll(selector);
+            elements.forEach(el => {
+                // Hide but preserve layout
+                el.style.display = 'none';
+                // Alternative: el.style.visibility = 'hidden';
+            });
+        });
     }
 })();
 
