@@ -1,13 +1,12 @@
 // ==UserScript==
-// @name         Hide Tweet Images on X.com
+// @name         Hide Third Child on x.com
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  Hide tweet images/videos while preserving text content
+// @version      0.1
+// @description  Hide the third child of specific elements on x.com
 // @author       You
 // @match        https://x.com/*
-// @match        https://twitter.com/*
 // @grant        none
-// @run-at       document-start
+// @run-at       document-body
 // @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/x_hide_img_part_of_tweets.user.js
 // @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/x_hide_img_part_of_tweets.user.js
 // ==/UserScript==
@@ -15,51 +14,40 @@
 (function() {
     'use strict';
 
-    // Create a MutationObserver to handle dynamically loaded content
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            mutation.addedNodes.forEach((node) => {
-                if (node.nodeType === Node.ELEMENT_NODE) {
-                    hideMediaElements(node);
+    // Create a MutationObserver to handle dynamically added content
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            mutation.addedNodes.forEach(node => {
+                // Check if the added node is an element
+                if (node.nodeType === 1) {
+                    // Process the node and its descendants
+                    processElements(node);
                 }
             });
         });
     });
 
-    // Start observing the document
-    observer.observe(document, { 
-        childList: true, 
-        subtree: true 
+    // Start observing
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
     });
 
-    // Initial run
-    document.addEventListener('DOMContentLoaded', () => {
-        hideMediaElements(document);
-    });
+    // Process existing elements on page load
+    processElements(document.body);
 
-    // Periodic check as fallback
-    setInterval(() => {
-        hideMediaElements(document);
-    }, 1500);
-
-    function hideMediaElements(root) {
-        // Target media containers in tweets
-        const selectors = [
-            'div[data-testid="tweet"] div:has(> div > div > div > div > div > div > div[role="link"])', // Image containers
-            'div[data-testid="tweet"] div:has(> div > div > div > div > div > div > div[aria-labelledby])', // Video containers
-            'div[data-testid="tweet"] div:has(> div > div > div > div > div > div > div[style*="background-image"])', // Background image containers
-            'div[data-testid="tweet"] div[role="link"]', // Link preview containers
-            'div[data-testid="tweet"] div:has(> div > video)', // Video elements
-            'div[data-testid="tweet"] div:has(> div > div > img)', // Direct image containers
-        ];
-
-        selectors.forEach(selector => {
-            const elements = (root.nodeType === Node.ELEMENT_NODE ? root : document).querySelectorAll(selector);
-            elements.forEach(el => {
-                // Hide but preserve layout
-                el.style.display = 'none';
-                // Alternative: el.style.visibility = 'hidden';
-            });
+    function processElements(root) {
+        // Find elements whose first child has class 'r-zl2h9q'
+        const targetElements = root.querySelectorAll(':scope > * > .r-zl2h9q');
+        
+        targetElements.forEach(el => {
+            // Get the parent of the first child (i.e., the container element)
+            const parentElement = el.parentElement;
+            
+            // Hide the third child if it exists
+            if (parentElement && parentElement.children.length >= 3) {
+                parentElement.children[2].style.display = 'none';
+            }
         });
     }
 })();
