@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Hide All Images on X.com
+// @name         Hide Background Images on X.com
 // @namespace    http://tampermonkey.net/
-// @version      1.1
-// @description  Hide all images on x.com (Twitter)
+// @version      1.2
+// @description  Hide all background images on x.com (Twitter)
 // @author       You
 // @match        https://x.com/*
 // @match        https://twitter.com/*
@@ -15,51 +15,70 @@
 (function() {
     'use strict';
 
-    // Create stylesheet to hide images
-    const hideImages = () => {
+    // CSS to hide background images
+    const hideBgImages = () => {
         const style = document.createElement('style');
-        style.textContent = 'img { display: none !important; }';
+        style.textContent = `
+            * {
+                background-image: none !important;
+                background: none !important;
+                background-color: #000000 !important;
+            }
+        `;
         document.head.appendChild(style);
     };
 
-    // MutationObserver to handle dynamically loaded content
-    const observeImages = () => {
+    // MutationObserver for dynamic content
+    const observeBgImages = () => {
         const observer = new MutationObserver(mutations => {
             mutations.forEach(mutation => {
                 mutation.addedNodes.forEach(node => {
-                    if (node.nodeType === 1) { // Element node
-                        // Hide images directly
-                        if (node.tagName === 'IMG') {
-                            node.style.display = 'none';
+                    if (node.nodeType === 1) { // Element nodes
+                        // Handle the node itself
+                        if (node.style) {
+                            node.style.backgroundImage = 'none';
+                            node.style.background = 'none';
                         }
-                        // Hide images within added elements
-                        const images = node.querySelectorAll && node.querySelectorAll('img');
-                        if (images) {
-                            images.forEach(img => img.style.display = 'none');
+                        
+                        // Handle children
+                        const elements = node.querySelectorAll && node.querySelectorAll('*');
+                        if (elements) {
+                            elements.forEach(el => {
+                                if (el.style) {
+                                    el.style.backgroundImage = 'none';
+                                    el.style.background = 'none';
+                                }
+                            });
                         }
                     }
                 });
             });
         });
 
-        // Start observing
         observer.observe(document.body, {
             childList: true,
             subtree: true
         });
     };
 
-    // Handle different loading states
+    // Initialize when DOM is ready
     if (document.head) {
-        hideImages();
+        hideBgImages();
     } else {
-        document.addEventListener('DOMContentLoaded', hideImages);
+        const headObserver = new MutationObserver(() => {
+            if (document.head) {
+                hideBgImages();
+                headObserver.disconnect();
+            }
+        });
+        headObserver.observe(document.documentElement, { childList: true });
     }
 
+    // Initialize observer when body exists
     if (document.body) {
-        observeImages();
+        observeBgImages();
     } else {
-        document.addEventListener('DOMContentLoaded', observeImages);
+        document.addEventListener('DOMContentLoaded', observeBgImages);
     }
 })();
 
