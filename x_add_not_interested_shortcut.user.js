@@ -19,7 +19,6 @@
     function addNotInterestedButton() {
         // Find tweet containers with action bars
         const tweets = document.querySelectorAll('article[data-testid="tweet"]');
-        console.log(`[NotInterested] Found ${tweets.length} tweets`);
 
         tweets.forEach((tweet, index) => {
             // Skip if button already exists
@@ -30,11 +29,8 @@
             // Find the action bar (group of buttons)
             const actionBar = tweet.querySelector('div[role="group"][aria-label]');
             if (!actionBar) {
-                console.log(`[NotInterested] No action bar found for tweet ${index}`);
                 return;
             }
-
-            console.log(`[NotInterested] Processing tweet ${index}`);
 
             // Remove extra spacing element (usually the 6th child)
             try {
@@ -45,7 +41,6 @@
                         const style = sixthElement.getAttribute('style') || '';
                         if (style.includes('justify-content: inherit') && style.includes('display: inline-grid')) {
                             sixthElement.remove();
-                            console.log(`[NotInterested] Removed spacing element from tweet ${index}`);
                         }
                     }
                 }
@@ -85,20 +80,17 @@
 
             // Add click event
             notInterestedButton.addEventListener('click', function(e) {
-                console.log('[NotInterested] Button clicked');
                 e.stopPropagation();
 
                 // Find and click the tweet's menu button
                 const menuButton = tweet.querySelector('button[aria-label*="More"], button[data-testid="caret"]');
 
                 if (menuButton) {
-                    console.log('[NotInterested] Menu button found, clicking...');
                     menuButton.click();
 
                     // Wait for menu to appear and click "Not interested"
                     setTimeout(() => {
                         const menuItems = document.querySelectorAll('div[role="menuitem"]');
-                        console.log(`[NotInterested] Found ${menuItems.length} menu items`);
 
                         let notInterestedMenuItem = null;
                         menuItems.forEach(item => {
@@ -109,20 +101,14 @@
                         });
 
                         if (notInterestedMenuItem) {
-                            console.log('[NotInterested] Not interested menu item found, clicking...');
                             notInterestedMenuItem.click();
-                        } else {
-                            console.log('[NotInterested] Not interested menu item NOT found');
-                        }
+                        } 
                     }, 300);
-                } else {
-                    console.log('[NotInterested] Menu button NOT found');
-                }
+                } 
             });
 
             // Insert button into action bar
             actionBar.appendChild(notInterestedButton);
-            console.log(`[NotInterested] Button added to tweet ${index}`);
         });
     }
 
@@ -147,12 +133,10 @@
         });
 
         if (shouldAddButtons) {
-            console.log('[NotInterested] New tweets detected');
             setTimeout(addNotInterestedButton, 500);
         }
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-    console.log('[NotInterested] Observer started');
 })();
 
