@@ -19,6 +19,9 @@
         .u-section-spacer.w-variant-60a7ad7d-02b0-6682-95a5-2218e6fd1490.u-ignore-trim {
             display: none !important;
         }
+        .blog_wrap.u-section {
+            border-top: none !important;
+        }
     `;
     document.head.appendChild(style);
 })();
