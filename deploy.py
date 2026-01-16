@@ -32,8 +32,11 @@ def get_changed_files():
     files = []
     for line in result.stdout.strip().split('\n'):
         if line:
-            # Format: "XY filename" where XY is status
-            filename = line[3:].strip()
+            # Format: "XY filename" - split on whitespace to be safe
+            parts = line.split(maxsplit=1)
+            if len(parts) < 2:
+                continue
+            filename = parts[1]
             # Handle renamed files (old -> new)
             if ' -> ' in filename:
                 filename = filename.split(' -> ')[1]
