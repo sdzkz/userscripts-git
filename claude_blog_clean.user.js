@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Hide hero, marquee, and section spacer on Claude blog
-// @match        https://claude.com/blog*
+// @match        https://claude.com/blog
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/claude_blog_clean.user.js
 // @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/claude_blog_clean.user.js
