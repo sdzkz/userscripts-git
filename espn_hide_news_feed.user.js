@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         ESPN - News Feed Hider
+// @name         ESPN - Hide Center Pane
 // @namespace    http://tampermonkey.net/
 // @version      1.1
 // @description  Hides the #news-feed element on espn.com using a robust method that works on dynamic pages.
