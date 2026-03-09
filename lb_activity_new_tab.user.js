@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Letterboxd Activity Links New Tab
+// @name         Letterboxd - Open links from Activity in  New Tab
 // @namespace    http://tampermonkey.net/
 // @version      0.3
 // @description  Open activity links in new tab

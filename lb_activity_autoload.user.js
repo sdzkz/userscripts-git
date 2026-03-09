@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Letterboxd Auto-Load Activity
+// @name         Letterboxd - Click Load older activity
 // @namespace    http://tampermonkey.net/
 // @version      0.3
 // @description  Automatically loads older activity when scrolling
