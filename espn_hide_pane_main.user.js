@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Hide ESPN Main Pane
+// @name         ESPN - Hide below header
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Hide the main pane on ESPN.com
