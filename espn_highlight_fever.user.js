@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         ESPN - highlight Fever
+// @name         ESPN - highlight WNBA teams
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -14,11 +14,15 @@
 (function() {
     'use strict';
 
-    var elements = document.querySelectorAll('a.AnchorLink[href*="/wnba/team/_/name/ind/"]');
-    for (var i = 0; i < elements.length; i++) {
-        elements[i].style.backgroundColor = '#FFFF00';
-        elements[i].style.fontColor = '#000';
-        elements[i].style.fontSize = '1.5em';
-    }
+    var teams = ['ind'];
+
+    teams.forEach(function(team) {
+        var elements = document.querySelectorAll('a.AnchorLink[href*="/wnba/team/_/name/' + team + '/"]');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.backgroundColor = '#FFFF00';
+            elements[i].style.fontColor = '#000';
+            elements[i].style.fontSize = '1.5em';
+        }
+    });
 })();
 
