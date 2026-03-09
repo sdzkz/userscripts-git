@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         HornFans Modal Closer
+// @name         HornFans - Close Ad Blocker Modal
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Automatically closes the modal on hornfans.com
