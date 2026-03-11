@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Remove YouTube "You" Sidebar Link
+// @name         YT - Remove You Sidebar Link
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Removes the "You" link from YouTube sidebar
