@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Hide X.com Children Except First Two
+// @name         X - Hide Quoted Tweets/Img/Video
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Hide all children except first two of specific X.com elements
