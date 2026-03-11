@@ -12,6 +12,7 @@ import os
 import sys
 import subprocess
 import glob
+import time
 import webbrowser
 
 # GitHub raw URL base
@@ -19,7 +20,7 @@ BASE_URL = "https://raw.githubusercontent.com/sdzkz/userscripts-git/main/"
 
 def raw_url(filename: str) -> str:
     """Return the raw GitHub URL for a given file name."""
-    return BASE_URL + os.path.basename(filename)
+    return BASE_URL + os.path.basename(filename) + f"?v={int(time.time())}"
 
 def open_in_browser(url: str, use_chrome: bool = False) -> None:
     """Open URL in Chrome if requested, otherwise default browser."""
