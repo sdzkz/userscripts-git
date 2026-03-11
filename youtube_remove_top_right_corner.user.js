@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Remove YouTube Top Right Corner Elements
+// @name         YT - Remove Top Right Corner Elements
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Removes the account/settings section in the top right corner
