@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Fix Flex Basis for x.com
+// @name         X - Align retweet indicator
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Sets flex-basis: auto for elements with class r-onrtq4 on x.com
