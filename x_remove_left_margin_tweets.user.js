@@ -1,11 +1,10 @@
 // ==UserScript==
-// @name         X.com - Remove tweet left margin
+// @name         X - Remove profile pic
 // @namespace    http://tampermonkey.net/
 // @version      1.1
 // @description  Hide elements with specific classes on X.com
 // @author       You
 // @match        https://x.com/*
-// @match        https://twitter.com/*
 // @grant        none
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/x_remove_left_margin_tweets.user.js
