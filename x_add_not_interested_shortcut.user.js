@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Twitter Not Interested Button
+// @name         X - Add Not Interested Button
 // @namespace    http://tampermonkey.net/
 // @version      1.2
 // @description  Add Not Interested button directly to tweets and remove extra spacing
