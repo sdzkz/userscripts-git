@@ -7,15 +7,18 @@ This repo manages browser userscripts (Tampermonkey/Greasemonkey) with version c
 ## Directory Structure
 
 ```
-userscripts-git/
-├── *.user.js          # Individual userscripts (38 scripts)
-├── sandbox/           # Experimental scripts
-├── prepare.py         # Updates metadata with GitHub URLs
-├── open_raw.py        # Opens raw GitHub URL in browser
-├── get_raw.py         # Copies raw GitHub URL to clipboard
-├── command            # Quick deploy script
-├── default.user.js.txt # Template for new scripts
-└── .env               # GitHub token (if needed)
+Userscripts/
+├── *.user.js            # Individual userscripts (33 scripts)
+├── sandbox/             # Experimental scripts
+├── prepare.py           # Updates metadata with GitHub URLs
+├── open_raw.py          # Opens raw GitHub URL in browser
+├── get_raw.py           # Copies raw GitHub URL to clipboard
+├── deploy.py            # Single-file deploy (prepare + commit + push + open)
+├── release.sh           # Bump @version in a script
+├── command              # Quick deploy script
+├── default.user.js.txt  # Template for new scripts
+├── LICENSE
+└── .env                 # GitHub token (if needed)
 ```
 
 ## Utility Scripts
@@ -42,6 +45,20 @@ Copies the raw GitHub URL to clipboard (macOS).
 
 ```bash
 ./get_raw.py script.user.js
+```
+
+### deploy.py
+Single-file deploy: checks only one file changed, runs prepare, commits, pushes, and opens in browser (Brave/Chrome).
+
+```bash
+./deploy.py script.user.js
+```
+
+### release.sh
+Bumps the `@version` number in a script (increments last segment).
+
+```bash
+./release.sh script.user.js
 ```
 
 ### command
@@ -91,5 +108,5 @@ When you push changes, Tampermonkey checks these URLs and auto-updates the scrip
 
 ## GitHub Remote
 
-- Repo: `git@github.com-personal:sdzkz/userscripts-git.git`
+- Repo: `https://github.com/sdzkz/userscripts-git.git`
 - Raw URL base: `https://raw.githubusercontent.com/sdzkz/userscripts-git/main/`
