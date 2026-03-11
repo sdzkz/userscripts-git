@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Hide X Notification Badge
+// @name         X - Hide Notification Badge
 // @namespace    https://x.com/
 // @match        *://x.com/*
 // @match        *://twitter.com/*
