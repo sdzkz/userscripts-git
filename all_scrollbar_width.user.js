@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Custom Scrollbar Width
+// @name         * - Custom Scrollbar Width
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  Increase scrollbar width and set minimum thumb height
 // @author       You
 // @match        *://*/*
