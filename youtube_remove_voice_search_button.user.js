@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Remove YouTube Voice Search Button
+// @name         YT - Remove Voice Search Button
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Removes the voice search button from YouTube
