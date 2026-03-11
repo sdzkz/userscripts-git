@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Remove YouTube Homepage Primary Content
+// @name         YT - Remove Homepage Primary Content
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Removes the main content area from YouTube homepage
