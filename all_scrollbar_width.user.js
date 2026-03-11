@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         * - Custom Scrollbar Width
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  Increase scrollbar width and set minimum thumb height
 // @author       You
 // @match        *://*/*
@@ -41,7 +41,10 @@
     style.innerHTML = `
         ::-webkit-scrollbar {
             width: 100px !important;
-            height: 100px !important;
+        }
+        ::-webkit-scrollbar:horizontal {
+            height: 0 !important;
+            display: none !important;
         }
         ::-webkit-scrollbar-track {
             background: #2b2b2b !important;
