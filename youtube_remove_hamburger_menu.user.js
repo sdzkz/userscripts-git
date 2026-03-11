@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Remove YouTube Hamburger Menu Near Logo
+// @name         YT - Remove Hamburger Menu Near Logo
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Removes the sidebar toggle button next to YouTube logo
