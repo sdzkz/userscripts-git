@@ -173,6 +173,13 @@ def main():
     # Single file changed and it matches our script
     print(f"Deploying: {script}")
 
+    # Bump version
+    result = subprocess.run(["./release.sh", script], capture_output=True, text=True)
+    print(result.stdout, end='')
+    if result.returncode != 0:
+        print(result.stderr, file=sys.stderr)
+        sys.exit(1)
+
     # Prepare metadata
     if not run_prepare(script):
         sys.exit(1)
