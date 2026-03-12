@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Remove YouTube Sidebar Footer
+// @name         YT - Remove Sidebar Footer
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Removes the footer section from YouTube sidebar
