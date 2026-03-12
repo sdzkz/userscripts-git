@@ -8,7 +8,8 @@ This repo manages browser userscripts (Tampermonkey/Greasemonkey) with version c
 
 ```
 Userscripts/
-├── *.user.js            # Individual userscripts
+├── src/                 # Userscripts (migrated by deploy.py)
+├── *.user.js            # Userscripts not yet migrated
 ├── sandbox/             # Experimental scripts
 ├── prepare.py           # Updates metadata with GitHub URLs
 ├── open_raw.py          # Opens raw GitHub URL in browser
@@ -48,7 +49,7 @@ Copies the raw GitHub URL to clipboard (macOS).
 ```
 
 ### deploy.py
-Single-file deploy: checks only one file changed, bumps version, runs prepare, commits, pushes, and opens in browser (Brave/Chrome).
+Single-file deploy: checks only one file changed, bumps version, runs prepare, commits, pushes, and opens in browser (Brave/Chrome). Also migrates the script to `src/` if not already there.
 
 ```bash
 ./deploy.py script.user.js

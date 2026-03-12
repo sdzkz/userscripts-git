@@ -62,12 +62,17 @@ def git_commit_and_push(script):
     """Stage, commit, and push the script."""
     basename = os.path.basename(script).replace('.user.js', '')
 
+    # Ask for commit message
+    msg = input("Commit message: ").strip()
+    if not msg:
+        msg = basename
+
     # Stage the file
     subprocess.run(["git", "add", script], check=True)
 
     # Commit
     result = subprocess.run(
-        ["git", "commit", "-m", basename],
+        ["git", "commit", "-m", msg],
         capture_output=True,
         text=True
     )
@@ -188,10 +193,42 @@ def main():
     if not git_commit_and_push(script):
         sys.exit(1)
 
+    # Migrate to src/ if not already there
+    if not script.startswith("src/"):
+        src_dir = "src"
+        os.makedirs(src_dir, exist_ok=True)
+        new_path = os.path.join(src_dir, os.path.basename(script))
+
+        print(f"\nMigrating {script} -> {new_path}")
+        subprocess.run(["git", "mv", script, new_path], check=True)
+
+        # Update metadata URLs for new path
+        if not run_prepare(new_path):
+            sys.exit(1)
+
+        # Commit and push the move
+        basename = os.path.basename(script).replace('.user.js', '')
+        subprocess.run(["git", "add", new_path], check=True)
+        result = subprocess.run(
+            ["git", "commit", "-m", f"move {basename} to src/"],
+            capture_output=True,
+            text=True
+        )
+        print(result.stdout, end='')
+
+        print("Pushing...")
+        result = subprocess.run(["git", "push"], capture_output=True, text=True)
+        if result.returncode != 0:
+            print(result.stderr, file=sys.stderr)
+            sys.exit(1)
+        print("Pushed successfully.")
+
+        script = new_path
+
     # Ask for browser
     browser = ask_browser()
     if browser:
-        url = BASE_URL + os.path.basename(script)
+        url = BASE_URL + script
         print(f"Opening {url}")
         open_in_browser(url, browser)
 
