@@ -1,11 +1,13 @@
 // ==UserScript==
-// @name         YouTube Shorts Remover
+// @name         YT - Remove Shorts
 // @namespace    http://tampermonkey.net/
 // @version      1.0
-// @description  Removes Shorts shelf from YouTube homepage
+// @description  Removes Shorts shelf from YouTube
 // @author       You
 // @match        *://*.youtube.com/*
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/youtube_remove_shorts.user.js
+// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/youtube_remove_shorts.user.js
 // ==/UserScript==
 
 (function() {
