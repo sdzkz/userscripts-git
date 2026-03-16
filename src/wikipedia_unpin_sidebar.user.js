@@ -1,7 +1,6 @@
 // ==UserScript==
 // @name         Wikipedia Unpin Sidebar
-// @namespace    https://github.com/billp
-// @version      1.1
+// @version      1.3
 // @description  Clicks the unpin button on the main menu sidebar on page load
 // @match        *://*.wikipedia.org/*
 // @grant        none
@@ -18,5 +17,16 @@
   const btn = document.querySelector(selector);
   if (btn) {
     btn.click();
+    return;
   }
+
+  const observer = new MutationObserver(() => {
+    const btn = document.querySelector(selector);
+    if (btn) {
+      observer.disconnect();
+      btn.click();
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 })();
