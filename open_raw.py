@@ -19,8 +19,8 @@ import webbrowser
 BASE_URL = "https://raw.githubusercontent.com/sdzkz/userscripts-git/main/"
 
 def raw_url(filename: str) -> str:
-    """Return the raw GitHub URL for a given file name."""
-    return BASE_URL + os.path.basename(filename) + f"?v={int(time.time())}"
+    """Return the raw GitHub URL for a given file path."""
+    return BASE_URL + filename + f"?v={int(time.time())}"
 
 def open_in_browser(url: str, use_chrome: bool = False) -> None:
     """Open URL in Chrome if requested, otherwise default browser."""
@@ -64,7 +64,7 @@ def main(argv):
 
     if argv[1] == "--all":
         # Collect every *.user.js in current directory
-        scripts = glob.glob("*.user.js")
+        scripts = glob.glob("src/*.user.js")
         if not scripts:
             print("No *.user.js files found.", file=sys.stderr)
             sys.exit(1)
