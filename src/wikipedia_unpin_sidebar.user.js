@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Wikipedia Unpin Sidebar
-// @version      1.3
+// @version      1.4
 // @description  Clicks the unpin button on the main menu sidebar on page load
 // @match        *://*.wikipedia.org/*
 // @grant        none
@@ -12,7 +12,7 @@
 (function () {
   'use strict';
 
-  const selector = '#vector-main-menu > div.vector-pinnable-header.vector-main-menu-pinnable-header.vector-pinnable-header-pinned > button.vector-pinnable-header-toggle-button.vector-pinnable-header-unpin-button';
+  const selector = 'button.vector-pinnable-header-unpin-button[data-event-name="pinnable-header.vector-main-menu.unpin"]';
 
   const btn = document.querySelector(selector);
   if (btn) {
