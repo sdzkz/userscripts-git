@@ -6,8 +6,8 @@
 // @match        *://*.wikipedia.org/*
 // @grant        none
 // @run-at       document-idle
-// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/wikipedia_unpin_sidebar.user.js
-// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/wikipedia_unpin_sidebar.user.js
+// @updateURL    https://raw.githubusercontent.com/sdzkz/userscripts-git/main/src/wikipedia_unpin_sidebar.user.js
+// @downloadURL  https://raw.githubusercontent.com/sdzkz/userscripts-git/main/src/wikipedia_unpin_sidebar.user.js
 // ==/UserScript==
 
 (function () {
