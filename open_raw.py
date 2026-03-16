@@ -9,6 +9,7 @@ open_raw.py [--chrome] --all           # Open all *.user.js files
 """
 
 import os
+import re
 import sys
 import subprocess
 import glob
@@ -17,6 +18,15 @@ import webbrowser
 
 # GitHub raw URL base
 BASE_URL = "https://raw.githubusercontent.com/sdzkz/userscripts-git/main/"
+
+def get_version(filepath: str) -> str:
+    """Extract @version from a userscript file."""
+    with open(filepath) as f:
+        for line in f:
+            m = re.search(r'@version\s+(\S+)', line)
+            if m:
+                return m.group(1)
+    return '?'
 
 def raw_url(filename: str) -> str:
     """Return the raw GitHub URL for a given file path."""
@@ -69,6 +79,7 @@ def main(argv):
             print("No *.user.js files found.", file=sys.stderr)
             sys.exit(1)
         for script in scripts:
+            print(f"{script} v{get_version(script)}")
             open_in_browser(raw_url(script), use_chrome)
     else:
         # Single file mode
@@ -76,6 +87,7 @@ def main(argv):
         if not os.path.isfile(script):
             print(f"File not found: {script}", file=sys.stderr)
             sys.exit(1)
+        print(f"{script} v{get_version(script)}")
         open_in_browser(raw_url(script), use_chrome)
 
 if __name__ == "__main__":

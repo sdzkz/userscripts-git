@@ -15,11 +15,22 @@ What it does:
 """
 
 import os
+import re
 import sys
 import subprocess
 import webbrowser
 
 BASE_URL = "https://raw.githubusercontent.com/sdzkz/userscripts-git/main/"
+
+
+def get_version(filepath):
+    """Extract @version from a userscript file."""
+    with open(filepath) as f:
+        for line in f:
+            m = re.search(r'@version\s+(\S+)', line)
+            if m:
+                return m.group(1)
+    return '?'
 
 
 def get_changed_files():
@@ -176,7 +187,7 @@ def main():
         sys.exit(1)
 
     # Single file changed and it matches our script
-    print(f"Deploying: {script}")
+    print(f"Deploying: {script} v{get_version(script)}")
 
     # Bump version
     result = subprocess.run(["./release.sh", script], capture_output=True, text=True)
